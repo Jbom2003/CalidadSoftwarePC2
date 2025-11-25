@@ -1,0 +1,16 @@
+# --- Maven ---
+target/
+*.log
+
+# --- IntelliJ IDEA ---
+.idea/
+*.iml
+*.iws
+*.ipr
+out/
+
+# --- Mac OS (Si usas o el profesor usa Mac) ---
+.DS_Store
+
+# --- Otros ---
+.mvn/wrapper/maven-wrapper.jar
