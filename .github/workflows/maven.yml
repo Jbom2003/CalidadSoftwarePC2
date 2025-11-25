@@ -12,10 +12,10 @@ jobs:
 
     steps:
       - name: Descargar código del repositorio
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Configurar Java 17
-        uses: actions/setup-java@v3
+        uses: actions/setup-java@v4
         with:
           java-version: '17'
           distribution: 'temurin'
@@ -24,9 +24,8 @@ jobs:
       - name: Ejecutar Pruebas y Generar Reporte JaCoCo
         run: mvn clean test jacoco:report
 
-      # Opcional: Esto sube el reporte HTML a GitHub para que lo puedas descargar y ver
       - name: Cargar Reporte de Cobertura como Artefacto
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: jacoco-report
           path: target/site/jacoco/
