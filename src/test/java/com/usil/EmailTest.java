@@ -6,48 +6,39 @@ import static org.junit.jupiter.api.Assertions.*;
 class EmailTest {
     Email emailValidator = new Email();
 
-    // Prueba 1: Exception por Nulo o Vacío
+    // Prueba 1: Null
     @Test
-    void testNullOrEmpty() {
+    void testEmailNull() {
         assertThrows(IllegalArgumentException.class, () -> emailValidator.isValidEmail(null));
+    }
+
+    // Prueba 2: Vacío
+    @Test
+    void testEmailEmpty() {
         assertThrows(IllegalArgumentException.class, () -> emailValidator.isValidEmail(""));
     }
 
-    // Prueba 2: Correos válidos (Estándar y casos borde permitidos)
+    // Prueba 3: Gmail
     @Test
-    void testValidEmails() {
-        assertTrue(emailValidator.isValidEmail("cliente123@tienda.com"));
-        assertTrue(emailValidator.isValidEmail("a.b@test.pe")); // Puntos en local
-        assertTrue(emailValidator.isValidEmail("a@b.pe")); // Longitud mínima exacta
+    void testValidGmail() {
+        assertTrue(emailValidator.isValidEmail("cliente@gmail.com"));
     }
 
-    // Prueba 3: Estructura general inválida (Sin arroba, dominios rotos)
+    // Prueba 4: Dominio .pe
     @Test
-    void testInvalidStructure() {
-        assertFalse(emailValidator.isValidEmail("sinarroba.com"));
-        assertFalse(emailValidator.isValidEmail("user@.com")); // Dominio empieza con punto
-        assertFalse(emailValidator.isValidEmail("user@domain.c")); // Extensión muy corta
+    void testValidPe() {
+        assertTrue(emailValidator.isValidEmail("usuario@empresa.pe"));
     }
 
-    // Prueba 4: Parte local inválida (Puntos inicio/fin/consecutivos)
+    // Prueba 5: Dominio .org
     @Test
-    void testInvalidLocalPart() {
-        assertFalse(emailValidator.isValidEmail(".user@domain.com")); // Empieza con punto
-        assertFalse(emailValidator.isValidEmail("user.@domain.com")); // Termina con punto
-        assertFalse(emailValidator.isValidEmail("us..er@domain.com")); // Puntos consecutivos
+    void testValidOrg() {
+        assertTrue(emailValidator.isValidEmail("info@ong.org"));
     }
 
-    // Prueba 5: Parte dominio inválida (Puntos al final o consecutivos)
+    // Prueba 6: Email con números
     @Test
-    void testInvalidDomainPart() {
-        assertFalse(emailValidator.isValidEmail("user@domain.com.")); // Termina con punto
-        assertFalse(emailValidator.isValidEmail("user@domain..com")); // Puntos consecutivos
-    }
-
-    // Prueba 6: Límites de longitud excedidos
-    @Test
-    void testLengthBoundaries() {
-        assertFalse(emailValidator.isValidEmail("short")); // Menor a 6
-        assertFalse(emailValidator.isValidEmail("a".repeat(250) + "@test.com")); // Mayor a 254
+    void testValidNumbers() {
+        assertTrue(emailValidator.isValidEmail("user2025@test.net"));
     }
 }

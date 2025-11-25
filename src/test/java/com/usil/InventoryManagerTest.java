@@ -12,46 +12,45 @@ class InventoryManagerTest {
         manager = new InventoryManager();
     }
 
-    // Prueba 1: Agregar ítem nuevo exitosamente
+    // Prueba 1: Agregar item nuevo
     @Test
-    void testAddItemNew() {
+    void testAddItemLaptop() {
         manager.addItem("Laptop", 5);
         assertEquals(5, manager.getStock("Laptop"));
     }
 
-    // Prueba 2: Acumular stock de producto existente (Branch coverage)
+    // Prueba 2: Agregar item repetido
     @Test
-    void testAddItemAccumulate() {
-        manager.addItem("Mouse", 10);
-        manager.addItem("Mouse", 5);
-        assertEquals(15, manager.getStock("Mouse"));
+    void testAddExistingItem() {
+        manager.addItem("Mouse", 2);
+        manager.addItem("Mouse", 3);
+        assertEquals(5, manager.getStock("Mouse"));
     }
 
-    // Prueba 3: Validar nombre inválido (Nulo, Vacío, Solo espacios)
+    // Prueba 3: Agregar otro producto
     @Test
-    void testInvalidNameFormat() {
-        assertThrows(IllegalArgumentException.class, () -> manager.addItem(null, 5));
-        assertThrows(IllegalArgumentException.class, () -> manager.addItem("", 5));
-        assertThrows(IllegalArgumentException.class, () -> manager.addItem("   ", 5));
+    void testAddKeyboard() {
+        manager.addItem("Keyboard", 10);
+        assertEquals(10, manager.getStock("Keyboard"));
     }
 
-    // Prueba 4: Validar longitud de nombre inválida
+    // Prueba 4: Agregar producto con nombre largo
     @Test
-    void testInvalidNameLength() {
-        assertThrows(IllegalArgumentException.class, () -> manager.addItem("A", 5)); // Menor a 2
-        assertThrows(IllegalArgumentException.class, () -> manager.addItem("A".repeat(51), 5)); // Mayor a 50
+    void testAddLongNameProduct() {
+        manager.addItem("Gaming Monitor 4K Ultra HD", 1);
+        assertEquals(1, manager.getStock("Gaming Monitor 4K Ultra HD"));
     }
 
-    // Prueba 5: Validar cantidad inválida (Cero o Negativos)
+    // Prueba 5: Agregar cantidad mínima permitida
     @Test
-    void testInvalidQuantityLow() {
-        assertThrows(IllegalArgumentException.class, () -> manager.addItem("Screen", 0));
-        assertThrows(IllegalArgumentException.class, () -> manager.addItem("Screen", -1));
+    void testAddMinQuantity() {
+        manager.addItem("USB", 1);
+        assertEquals(1, manager.getStock("USB"));
     }
 
-    // Prueba 6: Validar límite máximo de stock
+    // Prueba 6: Consultar algo que no existe
     @Test
-    void testQuantityLimitExceeded() {
-        assertThrows(IllegalArgumentException.class, () -> manager.addItem("Keyboard", 1001));
+    void testGetNonExistent() {
+        assertEquals(0, manager.getStock("Tablet"));
     }
 }

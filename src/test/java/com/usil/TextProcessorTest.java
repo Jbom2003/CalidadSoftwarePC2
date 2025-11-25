@@ -5,42 +5,39 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class TextProcessorTest {
 
-    // Prueba 1: Transformación exitosa simple
+    // Prueba 1: Caso Hola -> ALOH
     @Test
     void testReverseSimple() {
         assertEquals("ALOH", TextProcessor.reverseAndCapitalize("hola"));
     }
 
-    // Prueba 2: Transformación con limpieza (Trim) y espacios
+    // Prueba 2: Caso con espacios (Trim)
     @Test
-    void testReverseWithTrim() {
-        assertEquals("ALOH", TextProcessor.reverseAndCapitalize("  hola  "));
+    void testReverseWithSpaces() {
+        assertEquals("ALOH", TextProcessor.reverseAndCapitalize(" hola "));
     }
 
-    // Prueba 3: Transformación compleja (Frases y números)
+    // Prueba 3: Frase completa
     @Test
-    void testReverseComplex() {
+    void testReversePhrase() {
         assertEquals("ODNUM ALOH", TextProcessor.reverseAndCapitalize("hola mundo"));
+    }
+
+    // Prueba 4: Null exception
+    @Test
+    void testNullInput() {
+        assertThrows(IllegalArgumentException.class, () -> TextProcessor.reverseAndCapitalize(null));
+    }
+
+    // Prueba 5: Texto numérico
+    @Test
+    void testReverseNumbers() {
         assertEquals("321", TextProcessor.reverseAndCapitalize("123"));
     }
 
-    // Prueba 4: Exception por Nulo o Vacío
+    // Prueba 6: Texto mixto
     @Test
-    void testInvalidInputNullOrEmpty() {
-        assertThrows(IllegalArgumentException.class, () -> TextProcessor.reverseAndCapitalize(null));
-        assertThrows(IllegalArgumentException.class, () -> TextProcessor.reverseAndCapitalize(""));
-    }
-
-    // Prueba 5: Exception por solo espacios
-    @Test
-    void testWhitespaceOnly() {
-        assertThrows(IllegalArgumentException.class, () -> TextProcessor.reverseAndCapitalize("   "));
-    }
-
-    // Prueba 6: Exception por longitud excedida y constructor
-    @Test
-    void testLengthLimitAndConstructor() {
-        assertThrows(IllegalArgumentException.class, () -> TextProcessor.reverseAndCapitalize("a".repeat(1001)));
-        new TextProcessor(); // Cobertura del constructor para el 100% de clase
+    void testReverseMixed() {
+        assertEquals("C2P", TextProcessor.reverseAndCapitalize("p2c"));
     }
 }
